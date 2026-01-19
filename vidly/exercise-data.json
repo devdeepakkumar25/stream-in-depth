@@ -1,0 +1,65 @@
+[
+  {
+    "_id": "674055fe9ecf0001b2000001",
+    "name": "Node.js Mastery",
+    "author": "Mosh",
+    "tags": ["backend"],
+    "date": "2024-01-10T10:00:00Z",
+    "isPublished": true,
+    "price": 20
+  },
+  {
+    "_id": "674055fe9ecf0001b2000002",
+    "name": "React Fundamentals",
+    "author": "John",
+    "tags": ["frontend"],
+    "date": "2024-02-15T08:30:00Z",
+    "isPublished": true,
+    "price": 15
+  },
+  {
+    "_id": "674055fe9ecf0001b2000003",
+    "name": "MongoDB for Developers",
+    "author": "Alex",
+    "tags": ["database", "backend"],
+    "date": "2024-03-01T13:20:00Z",
+    "isPublished": false,
+    "price": 12
+  },
+  {
+    "_id": "674055fe9ecf0001b2000004",
+    "name": "Angular Deep Dive",
+    "author": "Sarah",
+    "tags": ["frontend"],
+    "date": "2024-01-25T11:00:00Z",
+    "isPublished": true,
+    "price": 25
+  },
+  {
+    "_id": "674055fe9ecf0001b2000005",
+    "name": "Docker by Practice",
+    "author": "Tom",
+    "tags": ["devops"],
+    "date": "2024-04-10T14:45:00Z",
+    "isPublished": true,
+    "price": 30
+  },
+  {
+    "_id": "674055fe9ecf0001b2000006",
+    "name": "Express API Design",
+    "author": "Mike",
+    "tags": ["backend"],
+    "date": "2024-05-05T09:15:00Z",
+    "isPublished": false,
+    "price": 10
+  },
+  {
+    "_id": "674055fe9ecf0001b2000007",
+    "name": "Vue.js Complete Guide",
+    "author": "Emma",
+    "tags": ["frontend"],
+    "date": "2024-06-20T16:00:00Z",
+    "isPublished": true,
+    "price": 18
+  }
+]

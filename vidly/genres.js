@@ -1,0 +1,71 @@
+const express = require("express");
+const genres = require("./routes/genres");
+
+const app = express();
+app.use(express.json());
+app.use("/api/genres", genres);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+
+// const genres = [
+//   { id: 1, name: "Action" },
+//   { id: 2, name: "Horror" },
+//   { id: 3, name: "Comedy" },
+// ];
+
+// app.get("/api/genres", (req, res) => {
+//   res.status(200).send(genres);
+// });
+
+// app.get("/api/genres/:id", (req, res) => {
+//   const genre = genres.find((g) => g.id === parseInt(req.params.id));
+//   if (!genre) return res.status(404).send("Genre with given id was not found");
+//   res.status(200).send(genre);
+// });
+
+// app.post("/api/genres", (req, res) => {
+//   const { error } = validateGenre(req.body);
+//   if (error) return res.status(400).send(error.details[0].message);
+//   const genre = {
+//     id: genres.length + 1,
+//     name: req.body.name,
+//   };
+//   genres.push(genre);
+//   res.status(201).send(genre);
+// });
+
+// app.put("/api/genres/:id", (req, res) => {
+//   const genre = genres.find((g) => g.id === parseInt(req.params.id));
+
+//   if (!genre) return res.status(404).send("Genre with given id was not foun");
+//   const { error } = validateGenre(req.body);
+
+//   if (error) return res.status(400).send(error.details[0].message);
+
+//   genre.name = req.body.name;
+//   res.status(200).send(genre);
+// });
+
+// app.delete("/api/genres/:id", (req, res) => {
+//   const genre = genres.find((g) => g.id === parseInt(req.params.id));
+
+//   if (!genre) return res.status(404).send("Genre with given id was not found");
+
+//   const index = genres.indexOf(genre);
+
+//   genres.splice(index, 1);
+
+//   res.status(404).send(genre);
+// });
+
+// function validateGenre(genre) {
+//   const schema = Joi.object({
+//     name: Joi.string().min(3).required(),
+//   });
+
+//   return schema.validate(genre);
+// }
