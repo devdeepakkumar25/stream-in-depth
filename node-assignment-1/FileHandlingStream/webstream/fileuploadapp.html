@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>File Upload using Fetch</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      #status {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Upload File using Fetch</h3>
+
+    <input type="file" id="fileInput" />
+    <button id="uploadBtn">Upload</button>
+
+    <p id="status"></p>
+
+    <script>
+      document
+        .getElementById("uploadBtn")
+        .addEventListener("click", async () => {
+          const fileInput = document.getElementById("fileInput");
+          const status = document.getElementById("status");
+          console.log("FIleInput: ", fileInput);
+
+          if (!fileInput.files.length) {
+            status.textContent = "Please select a file";
+            return;
+          }
+
+          const file = fileInput.files[0];
+          console.log("File: ", file);
+          const fileInfo = {
+            name: file.name,
+            extension: file.name.split(".").pop().toLowerCase(),
+            sizeBytes: file.size,
+            sizeKB: (file.size / 1024).toFixed(2) + " KB",
+            sizeMB: (file.size / (1024 * 1024)).toFixed(2) + " MB",
+            mimeType: file.type || "unknown",
+            lastModified: file.lastModified,
+            lastModifiedDate: new Date(file.lastModified).toLocaleString(),
+          };
+          const allowed = ["png", "jpg", "jpeg", "pdf"];
+
+          if (!allowed.includes(fileInfo.extension)) {
+            alert("Invalid file type");
+            return;
+          }
+          //   if (!file.type.startsWith("image/")) {
+          //     alert("Only images allowed");
+          //     return;
+          //   }
+
+          console.log("File Info:", fileInfo);
+
+          status.textContent = "Uploading...";
+
+          try {
+            const response = await fetch("http://localhost:3001/upload", {
+              method: "POST",
+              headers: {
+                "Content-Disposition": `attachment; filename=${file.name}`,
+                "Content-Type": "application/octet-stream",
+              },
+              body: file,
+            });
+          } catch (error) {
+            console.log("Error :", error.message);
+            status.textContent = "Upload failed";
+          }
+        });
+    </script>
+  </body>
+</html>

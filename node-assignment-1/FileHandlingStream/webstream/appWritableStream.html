@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Writable Stream Fetch</title>
+  </head>
+  <body>
+    <button id="send">Send Data</button>
+
+    <script>
+      document.getElementById("send").addEventListener("click", async () => {
+        try {
+          const response = await fetch("http://localhost:3000/write", {
+            method: "POST",
+            headers: {
+              "Content-Type": "text/plain",
+            },
+            body: "Hello from browser using fetch()",
+          });
+
+          const text = await response.text();
+          console.log("Server response:", text);
+        } catch (err) {
+          console.error("Fetch error:", err);
+        }
+      });
+    </script>
+  </body>
+</html>

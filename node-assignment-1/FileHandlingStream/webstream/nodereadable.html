@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Readable Stream Example</title>
+  </head>
+  <body>
+    <h2>Readable Stream Demo</h2>
+    <div id="output"></div>
+
+    <script>
+      const outputDiv = document.getElementById("output");
+      // Create a ReadableStream that emits numbers from 1 to 5 every second
+      const numberStream = new ReadableStream({
+        start(controller) {
+          let count = 1;
+
+          const intervalId = setInterval(() => {
+            if (count > 5) {
+              controller.close(); // Close the stream
+              clearInterval(intervalId);
+              return;
+            }
+
+            controller.enqueue(count); // Push data into the stream
+            count++;
+          }, 1000);
+        },
+      });
+
+      // Get a reader to consume the stream
+      const reader = numberStream.getReader();
+
+      // Function to read data from the stream
+      async function readStream() {
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+
+            if (done) {
+              outputDiv.innerHTML += "<strong>Stream finished</strong>";
+              console.log("Stream finished");
+              break;
+            }
+            outputDiv.innerHTML += `Received: ${value}<br>`;
+
+            console.log(`Received: ${value}`);
+          }
+        } catch (error) {
+          console.error("Error while reading the stream:", error);
+        }
+      }
+
+      // Start reading the stream
+      readStream();
+    </script>
+  </body>
+</html>

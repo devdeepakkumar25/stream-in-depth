@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch API Sandbox</title>
+  </head>
+  <body>
+    <button id="getText">Get Text</button>
+    <button id="getUsers">Get Users</button>
+    <button id="getPosts">Get API Data</button>
+    <div id="output"></div>
+    <div id="postData"></div>
+
+    <form id="addPost">
+      <div>
+        <input type="text" id="id" placeholder="ID" />
+      </div>
+      <div>
+        <input type="text" id="title" placeholder="Title" />
+      </div>
+      <div>
+        <textarea id="body" placeholder="Body"></textarea>
+      </div>
+      <input type="submit" value="Submit" />
+    </form>
+
+    <!-- <script src="index1.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="axiosscript.js"></script>
+  </body>
+</html>
