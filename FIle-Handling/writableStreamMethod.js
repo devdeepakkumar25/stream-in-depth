@@ -137,3 +137,65 @@ function writeUsingClass() {
 }
 
 writeUsingClass();
+
+function run() {
+  const stream = fs.createWriteStream("ab.txt", { flags: "a" });
+
+  const ws = new Writable({
+    write(chunk, encoding, callback) {
+      stream.write(chunk, encoding, callback);
+      console.log("[write]]", chunk.toString());
+    },
+    final(callback) {
+      stream.end();
+      callback();
+    },
+  });
+
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.write("Hello \n");
+  ws.end("End Hello\n");
+}
+
+class FileWritable extends Writable {
+  constructor() {
+    super();
+    this.stream = fs.createWriteStream("ab.txt", { flags: "a" });
+  }
+  _write(chunk, encoding, callback) {
+    this.stream.write(chunk, encoding, callback);
+    console.log("[write]]", chunk.toString());
+  }
+
+  _final(callback) {
+    this.stream.end();
+    callback();
+  }
+}
+
+const ws = new FileWritable();
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.write("Hello \n");
+ws.end("End Hello\n");

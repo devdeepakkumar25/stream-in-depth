@@ -1,4 +1,4 @@
-const { resolve } = require("dns");
+// const { resolve } = require("dns");
 const fs = require("fs");
 
 function writeUsingStream() {

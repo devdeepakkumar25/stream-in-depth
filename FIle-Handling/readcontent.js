@@ -1,6 +1,14 @@
 const fs = require("fs");
 const fsp = require("node:fs/promises");
 
+// fs.readFile("write.txt", (err, data) => {
+//   if (err) {
+//     console.log(err);
+//     return;
+//   }
+//   console.log(data.toString());
+// });
+
 function readFile() {
   fs.open("number.txt", "r", (err, fd) => {
     if (err) {

@@ -1,5 +1,5 @@
+const { Readable, pipeline } = require("stream");
 const fs = require("fs");
-const { Readable } = require("stream");
 
 function readUsingFactory() {
   const rs = fs.createReadStream("stream.txt", {
@@ -136,3 +136,100 @@ function readUsingClass() {
 }
 
 readUsingClass();
+
+function run() {
+  const fileStream = fs.createReadStream("stream.txt");
+
+  const rs = new Readable({
+    read() {},
+  });
+
+  fileStream.on("data", (chunk) => {
+    const canPush = rs.push(chunk);
+    if (!canPush) {
+      fileStream.pause();
+    }
+  });
+
+  fileStream.on("end", () => {
+    rs.push(null);
+  });
+
+  rs.on("drain", () => {
+    fileStream.resume();
+  });
+
+  rs.on("data", (chunk) => {
+    console.log("[data]", chunk.toString());
+  });
+}
+
+// run();
+
+function run2() {
+  const rs = new Readable({
+    read() {},
+  });
+
+  setInterval(() => {
+    rs.push("hello\n");
+  }, 1000);
+
+  function run() {
+    rs.pipe(process.stdout);
+  }
+
+  run();
+}
+
+run2();
+
+function run3() {
+  let i = 0;
+
+  const rs = new Readable({
+    read() {
+      if (i > 5) {
+        this.push(null);
+      } else {
+        this.push(String(i++));
+      }
+    },
+  });
+
+  function run() {
+    rs.pipe(process.stdout);
+    rs.on("data", (chunk) => [console.log(chunk.toString())]);
+  }
+
+  run();
+}
+
+class FileReadable extends Readable {
+  constructor() {
+    super();
+    this.i = 0;
+  }
+
+  _read() {
+    if (this.i > 5) {
+      this.push(null);
+    } else {
+      this.push(String(this.i++));
+    }
+  }
+}
+
+const rs = new FileReadable();
+
+new FileReadable().pipe(process.stdout);
+function run() {
+  rs.pipe(process.stdout);
+  rs.on("data", (chunk) => [console.log(chunk.toString())]);
+}
+
+run();
+
+Readable.from(["Hello\n", "Hello\n", "End Hello\n"]).pipe(
+  fs.createWriteStream("output.txt"),
+);

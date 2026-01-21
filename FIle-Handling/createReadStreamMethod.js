@@ -199,7 +199,7 @@ function readUsingStreamWithThrottle() {
   stream.on("data", (chunk) => {
     console.log("Chunk received:\n", chunk.trim());
 
-    stream.pause(); // ⛔ pause reading
+    stream.pause();
 
     setTimeout(() => {
       console.log("Resuming read...");
@@ -395,5 +395,82 @@ fs.createReadStream("stream.txt")
   .pipe(
     fs.createWriteStream("output.txt", {
       flags: "a",
-    })
+    }),
   );
+
+function run() {
+  const stream = fs.createReadStream("stream.txt", {
+    encoding: "utf-8",
+    highWaterMark: 16 * 1024,
+  });
+
+  const rl = readline.createInterface({
+    input: stream,
+  });
+
+  rl.on("line", (line) => {
+    rl.pause(); // pause reading
+
+    console.log("Line:", line);
+
+    setTimeout(() => {
+      rl.resume(); // resume after async work
+    }, 5000);
+  });
+
+  rl.on("close", () => {
+    console.log("Reading finished");
+  });
+
+  rl.on("error", (err) => {
+    console.error("Readline error:", err.message);
+  });
+}
+
+function run2() {
+  const upperCase = new Transform({
+    transform(chunk, encoding, callback) {
+      callback(null, chunk.toString().toUpperCase());
+    },
+  });
+
+  const stream = fs.createReadStream("write.txt");
+
+  const rl = readline.createInterface({
+    input: stream.pipe(upperCase),
+  });
+
+  rl.on("line", (line) => {
+    process.stdout.write(line + "\n");
+  });
+
+  rl.on("close", () => {
+    console.log("Readline closed");
+  });
+}
+
+function run3() {
+  const upperCase = new Transform({
+    transform(chunk, encoding, callback) {
+      const text = chunk.toString().toUpperCase();
+      callback(null, text);
+    },
+  });
+
+  const stream = fs.createReadStream("write.txt", {
+    highWaterMark: 16 * 1024,
+  });
+
+  const rl = readline.createInterface({
+    input: stream.pipe(upperCase),
+    output: process.stdout,
+  });
+
+  rl.on("line", (line) => {
+    console.log("line", line);
+  });
+
+  rl.on("close", () => {
+    console.log("Read line clsoe");
+  });
+}

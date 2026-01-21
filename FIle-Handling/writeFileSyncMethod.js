@@ -40,13 +40,32 @@ function writeFileUsingFdSync() {
 function writeFileCallback() {
   console.log("Program Strated");
 
-  fs.writeFile("write.txt", "Hello from callback", "utf-8", (err) => {
-    if (err) {
-      console.error("Error: ", err.message);
-      return;
-    }
-    console.log("File writtend callback");
-  });
+  // fs.writeFile("write.txt", "Hello from callback", "utf-8", (err) => {
+  fs.writeFile(
+    "write.txt",
+    "Hello from callback",
+    { encoding: "utf-8", flag: "w" },
+    (err) => {
+      if (err) {
+        console.error("Error: ", err.message);
+        return;
+      }
+      console.log("File writtend callback");
+    },
+  );
+
+  //   fs.writeFile(
+  //   "write.txt",
+  //   "\nhello from callback 2\n",
+  //   { encoding: "utf-8", flag: "a" },
+  //   (error) => {
+  //     if (error) {
+  //       console.log(error.message);
+  //       return;
+  //     }
+  //     console.log("File write ");
+  //   },
+  // );
 }
 
 // writeFileCallback();
